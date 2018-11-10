@@ -10,6 +10,7 @@ function get(url, callback) {
 function ready(callback) {
     get("/service/membership/user", (res) => {
         console.log('USER', res);
+        if (res.response.docs.length == 0) sendLogin();
         callback();
     })
 }
