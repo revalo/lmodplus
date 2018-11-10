@@ -63,6 +63,10 @@ ready(() => {
                     }
 
                     for (const [topicId, t] of Object.entries(topics)) {
+                        t.materials.sort((a, b) => {
+                            return Date.parse(a.createdDate) - Date.parse(b.createdDate);
+                        });
+
                         this.materials.push({title: t.title,
                                              materials: t.materials,
                                              timestamp: Date.parse(t.createdDate)});
@@ -70,11 +74,11 @@ ready(() => {
 
                     this.loading = false;
                 });
-                // getAssignments(course, (res) => {
-                //     for (let assignment of res.studentAssignmentInfo) {
-                //         this.assignments.push(assignment);
-                //     }
-                // });
+                getAssignments(course, (res) => {
+                    for (let assignment of res.studentAssignmentInfo) {
+                        this.assignments.push(assignment);
+                    }
+                });
             },
             loadUserData: function(callback) {
                 this.loading = true;

@@ -21,6 +21,7 @@
         </div>
         <div class="sidebar">
             <div class="tab" @click="state = 'materials'">Materials</div><br>
+            <div class="tab" @click="state = 'assignments'">Assignments</div><br>
             <div class="tab" @click="switchOld">Old LMOD</div>
         </div>
         <div class="content">
@@ -36,12 +37,12 @@
                 </div>
             </div>
             <div v-if="state == 'assignments'">
-                <!-- <div class="material" v-for="assignment in assignments">
+                <div class="material" v-for="assignment in assignments">
                     <div class="assignment">
                         <span class="grade-title">{{ assignment.name }}</span> <br>
-                        <span class="grade">{{ assignment.gradeString }} / {{ assignment.maxPointsTotal }}</span>
+                        <span class="grade">{{ assignment.maxPointsTotal }} / {{ assignment.maxPointsTotal }}</span>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
