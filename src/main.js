@@ -2,6 +2,24 @@ var app;
 
 setIsOld(false);
 
+if (window.location.hash) {
+    const cc = window.location.hash.substring(1);
+    setCurrentCourse(cc);
+    window.location.replace(window.location.href.split("#")[0]);
+}
+
+function getCurrentCourse() {
+    if (window.location.hash) {
+        return window.location.hash.substring(1);
+    } else {
+        return localStorage.getItem("currentCourse");
+    }
+}
+
+function setCurrentCourse(course) {
+    localStorage.setItem("currentCourse", course);
+}
+
 ready(() => {
     app = new Vue({
         el: '#app',
@@ -71,6 +89,7 @@ ready(() => {
                 });
             },
             reloadCourse: function() {
+                setCurrentCourse(this.currentCourse);
                 this.loadCourseData(this.currentCourse);
             },
             switchOld: function() {
@@ -80,7 +99,14 @@ ready(() => {
         },
         mounted: function() {
             this.loadUserData(() => {
-                this.currentCourse = this.classes[0].uuid;
+                const cc = getCurrentCourse();
+                if (cc == undefined || !this.classes.some(c => c.uuid == cc))
+                    this.currentCourse = this.classes[0].uuid;
+                else
+                    this.currentCourse = cc;
+
+                setCurrentCourse(this.currentCourse);
+
                 this.loadCourseData(this.currentCourse);
             })
         },
