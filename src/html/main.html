@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LMOD Plus</title>
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container" id="app" v-cloak>
+        <div class="header">
+            LMOD+
+        </div>
+        <div class="selector">
+            <select v-model="currentCourse" class="select" @change="reloadCourse">
+                <option v-bind:value="course.uuid" v-for="course in classes">{{ course.name }}</option>
+            </select>
+        </div>
+        <div class="sidebar">
+            <div class="tab" @click="state = 'materials'">Materials</div><br>
+            <div class="tab" @click="switchOld">Old LMOD</div>
+        </div>
+        <div class="content">
+            <div class="loader" v-if="loading">
+
+            </div>
+            <div v-if="state == 'materials'">
+                <div class="topic" v-for="topic in sortedMaterials">
+                    <div class="title">{{ topic.title }}</div>
+                    <div class="material" v-for="material in topic.materials">
+                        <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+                    </div>
+                </div>
+            </div>
+            <div v-if="state == 'assignments'">
+                <!-- <div class="material" v-for="assignment in assignments">
+                    <div class="assignment">
+                        <span class="grade-title">{{ assignment.name }}</span> <br>
+                        <span class="grade">{{ assignment.gradeString }} / {{ assignment.maxPointsTotal }}</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/dist/axios.min.js"></script>
+    <script src="/dist/vue.js"></script>
+    <script src="/src/api.js"></script>
+    <script src="/src/main.js"></script>
+</body>
+</html>
