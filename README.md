@@ -4,7 +4,7 @@ An attempt to speed up the bloated and slow learning-modules.mit.edu. Tries to g
 
 ## Download
 
-LMOD+ is a Chrome Extention. Download it from the Chrome Web Store.
+LMOD+ is a Chrome Extention. Download it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/lmod-plus/mgemjihhkimgggkinojhpobdghffddhf/) or [Firefox Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/lmod-plus/). Navigate to any LMOD Site to see the updated version.
 
 ## Development
 
