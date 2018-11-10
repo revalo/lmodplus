@@ -1,0 +1,15 @@
+.lmodplus {
+    font-size: 1.1em;
+    color: white;
+    text-decoration: underline;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    background-color: black;
+    padding: 1rem 2rem;
+}
+
+.lmodplus > a {
+    color: white;
+}

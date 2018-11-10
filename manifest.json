@@ -7,6 +7,20 @@
     "16": "icons/icon16.png",
     "128": "icons/icon128.png"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://learning-modules.mit.edu/class/*",
+        "*://learning-modules.mit.edu/portal/*",
+        "*://learning-modules.mit.edu/materials/*"
+      ],
+      "js": ["src/inject.js"],
+      "css": ["css/inject.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    "src/html/main.html"
+  ],
   "background": {
     "scripts": [
       "src/hook.js"
@@ -17,6 +31,7 @@
     "webRequest",
     "webRequestBlocking",
     "cookies",
+    "storage",
     "*://learning-modules.mit.edu/*",
     "*://plus.mit.edu/*"
   ]

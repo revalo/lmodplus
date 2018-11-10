@@ -14,6 +14,17 @@ function ready(callback) {
     })
 }
 
+function setIsOld(old) {
+    localStorage.setItem("old", old);
+    chrome.runtime.sendMessage({method: "setIsOld", old: old}, function(response) {
+        console.log(response.data);
+    });
+}
+
+function sendLogin() {
+    window.location.replace("https://learning-modules.mit.edu/Shibboleth.sso/Login?target=https%3A%2F%2Flearning-modules.mit.edu%2Fclass%2Findex.html%3Fuuid%3D%2Fcourse%2F18%2Ffa18%2F18.06%23dashboard")
+}
+
 function getMaterials(course, callback) {
     get("/service/membership/group?uuid=" + course, (res) => { 
         var id = res.response.docs[0].id;
@@ -25,8 +36,8 @@ function getMaterials(course, callback) {
 
 function getAssignments(course, callback) {
     get("/service/gradebook/gradebook?uuid=STELLAR:" + course, (res) => {
-        if (res.status == -1)
-            window.location.replace("https://learning-modules.mit.edu/Shibboleth.sso/Login?target=https%3A%2F%2Flearning-modules.mit.edu%2Fclass%2Findex.html%3Fuuid%3D%2Fcourse%2F18%2Ffa18%2F18.06%23dashboard")
+        if (res.status == -1) sendLogin();
+            
         var gradebookId = res.data.gradebookId;
         get("/service/gradebook/role/" + gradebookId + "?includePermissions=true", (res) => {
             var personId = res.data.person.personId;
@@ -39,6 +50,7 @@ function getAssignments(course, callback) {
 
 function getClasses(callback) {
     get("/service/membership/groups", (res) => {
+        if (!res.response) sendLogin();
         callback(res.response.docs);
     });
 }

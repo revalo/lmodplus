@@ -1,5 +1,7 @@
 var app;
 
+setIsOld(false);
+
 ready(() => {
     app = new Vue({
         el: '#app',
@@ -72,7 +74,8 @@ ready(() => {
                 this.loadCourseData(this.currentCourse);
             },
             switchOld: function() {
-                
+                setIsOld(true);
+                window.location.replace("https://learning-modules.mit.edu/class/index.html?uuid=" + this.currentCourse);
             }
         },
         mounted: function() {

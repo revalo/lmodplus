@@ -1,14 +1,31 @@
+
+
 (function() {
   const tabStorage = {};
   const networkFilters = {
       urls: [
-          "https://learning-modules.mit.edu/plus",
-          "*://plus.mit.edu/*"
+        "*://learning-modules.mit.edu/class/*",
+        "*://learning-modules.mit.edu/portal/*",
+        "*://learning-modules.mit.edu/materials/*"
       ]
   };
 
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.method == "setIsOld") {
+        localStorage.setItem("old", request.old);
+    }
+  });
+
   chrome.webRequest.onBeforeRequest.addListener((details) => {
-      console.log("req");
-      return {redirectUrl: chrome.extension.getURL("src/html/main.html")};
+    let r = false;
+    const old = localStorage.getItem("old");
+
+    if (old == undefined) r = true;
+    else if (old == "false") r = true;
+    else if (old == "true") r = false;
+
+    if (r) {
+        return ({redirectUrl: chrome.extension.getURL("src/html/main.html")});
+    }
   }, networkFilters, ['blocking']);
 }());
