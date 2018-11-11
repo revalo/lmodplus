@@ -1,3 +1,5 @@
+let userEmail = "";
+
 function get(url, callback) {
     axios.request({
         url: "https://learning-modules.mit.edu" + url,
@@ -11,6 +13,7 @@ function ready(callback) {
     get("/service/membership/user", (res) => {
         console.log('USER', res);
         if (res.response.docs.length == 0) sendLogin();
+        userEmail = res.response.docs[0].email;
         callback();
     })
 }
@@ -60,4 +63,10 @@ function getAssignmentDownloads(assingId, callback) {
     get("/service/materials/assignments/" + assingId, (res) => {
         callback(res.assignment);
     });
+}
+
+function getSubmissions(assignId, callback) {
+    get("/service/materials/assignments/" + assignId + "/submissions?accountEmail=" + userEmail, (res) => {
+        callback(res);
+    })
 }

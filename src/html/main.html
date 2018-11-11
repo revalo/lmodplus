@@ -59,6 +59,11 @@
                             <span v-if="assignment.maxPointsTotal == undefined">{{ assignment.gradeString }}</span>
                             <span v-if="assignment.maxPointsTotal != undefined">{{ assignment.maxPointsTotal }} / {{ assignment.maxPointsTotal }}</span>
                         </div>
+                        <div class="submissions">
+                            <div class="dl" v-for="dl in getSubmissions(assignment.assignmentId)">
+                                <a v-bind:href="submissionLink(dl)">{{ dl.title }}</a> 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

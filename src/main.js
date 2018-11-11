@@ -30,6 +30,7 @@ ready(() => {
             materials: [],
             assignments: [],
             downloads: [],
+            submissions: [],
             loading: false,
         },
         computed: {
@@ -46,6 +47,12 @@ ready(() => {
                 if (filtered[0].downloads == undefined) return [];
                 return filtered[0].downloads;
             },
+            getSubmissions: function(id) {
+                const filtered = this.submissions.filter(s => s.id == id);
+                if (filtered.length == 0) return [];
+                if (filtered[0].submissions == undefined) return [];
+                return filtered[0].submissions;
+            },
             dateFormat: function(ts) {
                 const date = new Date(ts);
                 return date.toDateString().replace(/\w+[.!?]?$/, '') + date.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
@@ -56,6 +63,9 @@ ready(() => {
                 
                 if (material.type == 'url')
                     return material.url;
+            },
+            submissionLink: function(submission) {
+                return "https://learning-modules.mit.edu/service/materials/assignments/" + submission.assignId + "/submissions/" + submission.subId + "/link";
             },
             loadCourseData: function(course) {
                 this.loading = true;
@@ -87,6 +97,8 @@ ready(() => {
                 });
                 getAssignments(course, (res) => {
                     this.downloads = [];
+                    this.submissions = [];
+
                     for (let assignment of res.studentAssignmentInfo) {
                         if (assignment.composite) continue;
                         this.assignments.push(assignment);
@@ -98,6 +110,17 @@ ready(() => {
                     for (let assignment of this.assignments) {
                         getAssignmentDownloads(assignment.assignmentId, (res) => {
                             this.downloads.push({id: assignment.assignmentId, downloads: res});
+                        });
+                        getSubmissions(assignment.assignmentId, (res) => {
+                            console.log(res);
+                            const currSubs = [];
+                            for (let key in res) {
+                                const submission = res[key];
+                                submission.subId = key;
+                                submission.assignId = assignment.assignmentId;
+                                currSubs.push(submission);
+                            }
+                            this.submissions.push({id: assignment.assignmentId, submissions: currSubs});
                         });
                     }
                 });
