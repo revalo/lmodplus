@@ -64,7 +64,37 @@ body {
 }
 
 .assignment {
+    display: grid;
+    grid-template-columns: 1.9fr 1.5fr 0.5fr 1.2fr;
+    grid-template-rows: auto;
+
+    grid-template-areas:
+        "name duedate grade submissions";
+
+    align-items: center;
+
     padding-bottom: 1rem;
+}
+
+.assignment > .name {
+    grid-area: name;
+    text-overflow: ellipsis;
+}
+
+.assignment > .duedate {
+    grid-area: duedate;
+}
+
+.assignment > .grade {
+    grid-area: grade;
+}
+
+.assignment > .download {
+    grid-area: download;
+}
+
+.assignment > .submissions {
+    grid-area: submissions;
 }
 
 .grade-title {
@@ -123,4 +153,43 @@ body {
     padding: 0.5rem 0.5rem;
     color: white;
     font-weight: bold;
+}
+
+.github {
+    background-image: url(/icons/github.png);
+    width: 2rem;
+    height: 2rem;
+    background-repeat: round;
+    margin: 0 auto;
+    margin-top: 1rem;
+    opacity: 0.3;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.github:hover {
+    opacity: 1;
+}
+
+.thead {
+    background-color: #95a5a6;
+    padding: 0.7rem 0.5rem;
+    color: white;
+    font-weight: bold;
+}
+
+.rows > div:nth-child(odd) {
+    background-color: #f3f3f3;
+    padding: 0.5rem 0.5rem;
+    font-size: 1.2em;
+}
+
+.rows > div:nth-child(even) {
+    background-color: white;
+    padding: 0.5rem 0.5rem;
+    font-size: 1.2em;
+}
+
+.dl > a {
+    font-size: 0.7em;
 }

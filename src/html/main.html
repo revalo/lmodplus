@@ -23,11 +23,11 @@
             <div class="tab" @click="state = 'materials'">Materials</div><br>
             <div class="tab" @click="state = 'assignments'">Assignments</div><br>
             <div class="tab" @click="switchOld">Old LMOD</div>
+            <a href="https://github.com/revalo/lmodplus" target="_blank"><div class="github"></div></a>
         </div>
         <div class="content">
-            <div class="loader" v-if="loading">
+            <div class="loader" v-if="loading"></div>
 
-            </div>
             <div v-if="state == 'materials'">
                 <div class="topic" v-for="topic in sortedMaterials">
                     <div class="title">{{ topic.title }}</div>
@@ -36,11 +36,29 @@
                     </div>
                 </div>
             </div>
+
             <div v-if="state == 'assignments'">
-                <div class="material" v-for="assignment in assignments">
-                    <div class="assignment">
-                        <span class="grade-title">{{ assignment.name }}</span> <br>
-                        <span class="grade">{{ assignment.maxPointsTotal }} / {{ assignment.maxPointsTotal }}</span>
+                <div class="assignment thead" v-if="!loading">
+                    <div class="name">Name</div>
+                    <div class="duedate">Due Date</div>
+                    <div class="grade">Grade</div>
+                    <div class="submissions">Submissions</div>
+                </div>
+                <div class="rows">
+                    <div class="assignment" v-for="assignment in assignments" >
+                        <div class="name">
+                            <div>
+                                {{ assignment.name }}
+                            </div>
+                            <div class="dl" v-for="dl in getDownloads(assignment.assignmentId)">
+                                <a v-bind:href="materialLink(dl)">{{ dl.title }}</a>
+                            </div>
+                        </div>
+                        <div class="duedate">{{ dateFormat(assignment.dueDate) }}</div>
+                        <div class="grade">
+                            <span v-if="assignment.maxPointsTotal == undefined">{{ assignment.gradeString }}</span>
+                            <span v-if="assignment.maxPointsTotal != undefined">{{ assignment.maxPointsTotal }} / {{ assignment.maxPointsTotal }}</span>
+                        </div>
                     </div>
                 </div>
             </div>

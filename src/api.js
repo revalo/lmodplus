@@ -55,3 +55,9 @@ function getClasses(callback) {
         callback(res.response.docs);
     });
 }
+
+function getAssignmentDownloads(assingId, callback) {
+    get("/service/materials/assignments/" + assingId, (res) => {
+        callback(res.assignment);
+    });
+}

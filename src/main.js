@@ -29,6 +29,7 @@ ready(() => {
             classes: [],
             materials: [],
             assignments: [],
+            downloads: [],
             loading: false,
         },
         computed: {
@@ -39,6 +40,16 @@ ready(() => {
             },
         },
         methods: {
+            getDownloads: function(id) {
+                const filtered = this.downloads.filter(d => d.id == id);
+                if (filtered.length == 0) return [];
+                if (filtered[0].downloads == undefined) return [];
+                return filtered[0].downloads;
+            },
+            dateFormat: function(ts) {
+                const date = new Date(ts);
+                return date.toDateString().replace(/\w+[.!?]?$/, '') + date.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+            },
             materialLink: function(material) {
                 if (material.type == 'document')
                     return "https://learning-modules.mit.edu" + material.downloadUrl;
@@ -75,8 +86,19 @@ ready(() => {
                     this.loading = false;
                 });
                 getAssignments(course, (res) => {
+                    this.downloads = [];
                     for (let assignment of res.studentAssignmentInfo) {
+                        if (assignment.composite) continue;
                         this.assignments.push(assignment);
+                    }
+                    this.assignments.sort((a, b) => {
+                        return a.postingDate - b.postingDate;
+                    });
+
+                    for (let assignment of this.assignments) {
+                        getAssignmentDownloads(assignment.assignmentId, (res) => {
+                            this.downloads.push({id: assignment.assignmentId, downloads: res});
+                        });
                     }
                 });
             },
