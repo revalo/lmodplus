@@ -1,4 +1,5 @@
 let userEmail = "";
+let studentId = -1;
 
 function get(url, callback) {
     axios.request({
@@ -45,6 +46,7 @@ function getAssignments(course, callback) {
         var gradebookId = res.data.gradebookId;
         get("/service/gradebook/role/" + gradebookId + "?includePermissions=true", (res) => {
             var personId = res.data.person.personId;
+            studentId = personId;
             get("/service/gradebook/student/" + gradebookId + "/" + personId + "/1?includeGradeInfo=true&includeAssignmentMaxPointsAndWeight=true&includePhoto=true&includeGradeHistory=false&includeCompositeAssignments=true&includeAssignmentGradingScheme=true&convertGradesToParentGradingScheme=true", (res) => {
                 callback(res.data);
             })
@@ -69,4 +71,29 @@ function getSubmissions(assignId, callback) {
     get("/service/materials/assignments/" + assignId + "/submissions?accountEmail=" + userEmail, (res) => {
         callback(res);
     })
+}
+
+function createNewSubmission(assignId, title, callback) {
+    axios.post("https://learning-modules.mit.edu/service/gradebook/submission", {
+        studentId: studentId,
+        assignmentId: assignId,
+        name: title,
+        primary: true,
+    }).then((res) => {
+        callback(res.data);
+    });
+}
+
+function uploadFile(file, title, assignId, subId, callback) {
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("json", JSON.stringify({title: title, type: "document"}));
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            callback();
+       }
+    };
+    xhr.open("POST", "https://learning-modules.mit.edu/service/materials/assignments/" + assignId + "/submissions/" + subId);
+    xhr.send(formData);
 }

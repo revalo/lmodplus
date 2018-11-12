@@ -32,6 +32,12 @@ ready(() => {
             downloads: [],
             submissions: [],
             loading: false,
+            cumulative: "N/A",
+        },
+        watch: {
+            state: function(a, b) {
+                localStorage.setItem("state", a);
+            }
         },
         computed: {
             sortedMaterials: function() {
@@ -99,6 +105,12 @@ ready(() => {
                     this.downloads = [];
                     this.submissions = [];
 
+                    if (res.overallGradeInformation.cumulativePoints != undefined) {
+                        this.cumulative = res.overallGradeInformation.cumulativePoints.toFixed(2);
+                    } else {
+                        this.cumulative = "N/A";
+                    }
+
                     for (let assignment of res.studentAssignmentInfo) {
                         if (assignment.composite) continue;
                         this.assignments.push(assignment);
@@ -112,7 +124,6 @@ ready(() => {
                             this.downloads.push({id: assignment.assignmentId, downloads: res});
                         });
                         getSubmissions(assignment.assignmentId, (res) => {
-                            console.log(res);
                             const currSubs = [];
                             for (let key in res) {
                                 const submission = res[key];
@@ -144,7 +155,22 @@ ready(() => {
             switchOld: function() {
                 setIsOld(true);
                 window.location.replace("https://learning-modules.mit.edu/class/index.html?uuid=" + this.currentCourse);
-            }
+            },
+            uloadClick: function(id) {
+                document.getElementById(''+id).click();
+            },
+            uload: function(id) {
+                const file = document.getElementById(''+id).files[0];
+                console.log("Got file", file);
+                createNewSubmission(id, file.name, (res) => {
+                    console.log("Created submission, return data", res)
+                    var submissionId = res.data.submission.submissionId;
+                    uploadFile(file, file.name, id, submissionId, () => {
+                        console.log("File upload done?");
+                        this.reloadCourse();
+                    });
+                });
+            },
         },
         mounted: function() {
             this.loadUserData(() => {
@@ -153,6 +179,9 @@ ready(() => {
                     this.currentCourse = this.classes[0].uuid;
                 else
                     this.currentCourse = cc;
+
+                const lastState = localStorage.getItem("state");
+                if (lastState != undefined) this.state = lastState;
 
                 setCurrentCourse(this.currentCourse);
 

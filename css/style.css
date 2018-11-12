@@ -21,7 +21,7 @@ body {
 
 .select {
     width: 100%;
-    font-size: 1.2em;
+    font-size: 1.4em;
 }
 
 .sidebar {
@@ -40,6 +40,13 @@ body {
 .header {
     grid-area: header;
     font-size: 3em;
+}
+
+.footer {
+    color: rgb(189, 189, 189);
+    font-size: 0.8em;
+    padding-top: 0.6rem;
+    text-align: center;
 }
 
 .content {
@@ -63,17 +70,25 @@ body {
     font-size: 1.1rem;
 }
 
+.cumulative {
+    font-size: 1.1em;
+    padding-bottom: 1rem;
+}
+
 .assignment {
     display: grid;
-    grid-template-columns: 1.9fr 1.5fr 0.5fr 1.2fr;
+    grid-template-columns: 1.9fr 1.3fr 0.8fr 1.2fr 0.3fr;
     grid-template-rows: auto;
 
     grid-template-areas:
-        "name duedate grade submissions";
-
+        "name duedate grade submissions submit";
     align-items: center;
 
     padding-bottom: 1rem;
+}
+
+.assignment > .submit {
+    grid-area: submit;
 }
 
 .assignment > .name {

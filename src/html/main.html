@@ -24,6 +24,10 @@
             <div class="tab" @click="state = 'assignments'">Assignments</div><br>
             <div class="tab" @click="switchOld">Old LMOD</div>
             <a href="https://github.com/revalo/lmodplus" target="_blank"><div class="github"></div></a>
+            <div class="footer">
+                © 2018 Shreyas Kapur<br>
+                Released Under MIT License
+            </div>
         </div>
         <div class="content">
             <div class="loader" v-if="loading"></div>
@@ -37,8 +41,9 @@
                 </div>
             </div>
 
-            <div v-if="state == 'assignments'">
-                <div class="assignment thead" v-if="!loading">
+            <div v-if="state == 'assignments' && !loading">
+                <div class="cumulative"><b>Cumulative Grade:</b> {{ cumulative }}</div>
+                <div class="assignment thead">
                     <div class="name">Name</div>
                     <div class="duedate">Due Date</div>
                     <div class="grade">Grade</div>
@@ -57,12 +62,17 @@
                         <div class="duedate">{{ dateFormat(assignment.dueDate) }}</div>
                         <div class="grade">
                             <span v-if="assignment.maxPointsTotal == undefined">{{ assignment.gradeString }}</span>
-                            <span v-if="assignment.maxPointsTotal != undefined">{{ assignment.maxPointsTotal }} / {{ assignment.maxPointsTotal }}</span>
+                            <span v-if="assignment.maxPointsTotal != undefined && assignment.gradeString != ''">{{ assignment.gradeString }} / {{ assignment.maxPointsTotal }}</span>
+                            <span v-if="assignment.maxPointsTotal != undefined && assignment.gradeString == ''">Ungraded / {{ assignment.maxPointsTotal }}</span>
                         </div>
                         <div class="submissions">
                             <div class="dl" v-for="dl in getSubmissions(assignment.assignmentId)">
                                 <a v-bind:href="submissionLink(dl)">{{ dl.title }}</a> 
                             </div>
+                        </div>
+                        <div class="submit">
+                            <input v-bind:id="assignment.assignmentId" type="file" v-on:change="uload(assignment.assignmentId)" hidden />
+                            <button @click="uloadClick(assignment.assignmentId)">Upload</button>
                         </div>
                     </div>
                 </div>
