@@ -1,5 +1,6 @@
 let userEmail = "";
 let studentId = -1;
+let myPersonId = -1;
 
 function get(url, callback) {
     axios.request({
@@ -15,6 +16,7 @@ function ready(callback) {
         console.log('USER', res);
         if (res.response.docs.length == 0) sendLogin();
         userEmail = res.response.docs[0].email;
+        myPersonId = res.response.docs[0].id;
         callback();
     })
 }
@@ -96,4 +98,31 @@ function uploadFile(file, title, assignId, subId, callback) {
     };
     xhr.open("POST", "https://learning-modules.mit.edu/service/materials/assignments/" + assignId + "/submissions/" + subId);
     xhr.send(formData);
+}
+
+// Mother of nested requests.
+function getSections(course, memberCallback, userCallback, callback) {
+    get("/service/membership/group?uuid=" + course, (res) => {
+        var groupId = res.response.docs[0].id;
+        get("/service/membership/group/" + groupId + "/sectionmember", (res) => {
+            memberCallback(res.response.docs);
+            get("/service/membership/group/" + groupId + "/groupsbyuser", (res) => {
+                userCallback(res.response.docs);
+                get("/service/membership/group/" + groupId + "/groups", (res) => {
+                    callback(res.response.docs);
+                });
+            });
+        });
+    });
+}
+
+function changeSection(sectionId, callback) {
+    axios.post("https://learning-modules.mit.edu/service/membership/group/" + sectionId + "/member?syncIndex=true",
+        [{
+                personId: myPersonId,
+                role: "Learner",  // TODO Can we hardcode this?
+        }]
+    ).then((res) => {
+        callback(res);
+    });
 }

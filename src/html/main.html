@@ -22,7 +22,9 @@
         <div class="sidebar">
             <div class="tab" @click="state = 'materials'">Materials</div><br>
             <div class="tab" @click="state = 'assignments'">Assignments</div><br>
+            <div class="tab" @click="state = 'sections'">Sections</div><br>
             <div class="tab" @click="switchOld">Old LMOD</div>
+
             <a href="https://github.com/revalo/lmodplus" target="_blank"><div class="github"></div></a>
             <div class="footer">
                 © 2018 Shreyas Kapur<br>
@@ -73,6 +75,33 @@
                         <div class="submit">
                             <input v-bind:id="assignment.assignmentId" type="file" v-on:change="uload(assignment.assignmentId)" hidden />
                             <button @click="uloadClick(assignment.assignmentId)">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="state == 'sections' && !loading">
+                <div class="section thead">
+                    <div class="name">Name</div>
+                    <div class="instructor">Instructor</div>
+                    <div class="time">Time</div>
+                    <div class="location">Location</div>
+                    <div class="spaces">Spaces Left</div>
+                    <div class="pick">Pick</div>
+                </div>
+                <div class="rows">
+                    <div class="section" v-for="section in sections">
+                        <div class="name">{{ section.longName }}</div>
+                        <div class="instructor">{{ section.person.displayName }}</div>
+                        <div class="time">{{ section.meetTime }}</div>
+                        <div class="location">{{ section.room }}</div>
+
+                        <div class="spaces" v-if="section.maxSize != undefined">{{ section.maxSize - section.size }}</div>
+                        <div class="spaces" v-if="section.maxSize == undefined">∞</div>
+
+                        <div class="pick" v-if="section.userPicked">✔</div>
+                        <div class="pick" v-if="!section.userPicked">
+                            <button @click="pickSection(section)">Pick</button>
                         </div>
                     </div>
                 </div>

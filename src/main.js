@@ -31,6 +31,7 @@ ready(() => {
             assignments: [],
             downloads: [],
             submissions: [],
+            sections: [],
             loading: false,
             cumulative: "N/A",
         },
@@ -135,6 +136,26 @@ ready(() => {
                         });
                     }
                 });
+
+                let memberLookup = [];
+                let userLookup = [];
+
+                getSections(course, (r) => {
+                    memberLookup = r;
+                }, (u) => {
+                    userLookup = u;
+                }, (res) => {
+                    this.sections = [];
+                    for (let section of res) {
+                        let person = memberLookup.filter(m => (m.uuid == section.uuid && (m.role == "Instructor" || m.role == "TA") && m.inherited == false))[0];
+                        if (person == undefined) {
+                            person = memberLookup.filter(m => (m.uuid == section.uuid && (m.role == "Instructor")))[0];
+                        }
+                        section.person = person;
+                        section.userPicked = (userLookup.filter(u => u.uuid == section.uuid).length > 0);
+                        this.sections.push(section);
+                    }
+                });
             },
             loadUserData: function(callback) {
                 this.loading = true;
@@ -169,6 +190,19 @@ ready(() => {
                         console.log("File upload done?");
                         this.reloadCourse();
                     });
+                });
+            },
+            pickSection: function(section) {
+                changeSection(section.id, (res) => {
+                    try {
+                        var error = res.data.response.docs[0].error;
+                        if (error != undefined && error != "") {
+                            alert(error);
+                        }
+                    } catch (error) {
+                        
+                    }
+                    this.reloadCourse();
                 });
             },
         },
