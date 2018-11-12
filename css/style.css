@@ -244,3 +244,17 @@ body {
 .section > .pick {
     grid-area: pick;
 }
+
+.link {
+    color: black;
+    text-decoration: none;
+    transition: 0.1s;
+}
+
+.link:hover {
+    color: blue;
+}
+
+.external {
+    opacity: 0.5;
+}

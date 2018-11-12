@@ -1,4 +1,10 @@
-
+function getUrlVars(url) {
+  var vars = {};
+  var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+      vars[key] = value;
+  });
+  return vars;
+}
 
 (function() {
   const tabStorage = {};
@@ -25,7 +31,11 @@
     else if (old == "true") r = false;
 
     if (r) {
-        return ({redirectUrl: chrome.extension.getURL("src/html/main.html")});
+      var urlParams = getUrlVars(details.url);
+      if (urlParams["uuid"] != undefined) {
+        return ({redirectUrl: chrome.extension.getURL("src/html/main.html") + "#" + urlParams["uuid"]});
+      }
+      return ({redirectUrl: chrome.extension.getURL("src/html/main.html")});
     }
   }, networkFilters, ['blocking']);
 }());

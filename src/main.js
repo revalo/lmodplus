@@ -205,6 +205,11 @@ ready(() => {
                     this.reloadCourse();
                 });
             },
+            evalLink: function(person) {
+                const scode = ""; //this.classes.filter(c => c.uuid == this.currentCourse)[0].name;
+                const name = person.lastName + ", " + person.firstName;
+                return "https://eduapps.mit.edu/ose-rpt/subjectEvaluationSearch.htm?termId=&departmentId=&subjectCode=" + scode + "&instructorName=" + name + "&search=Search";
+            }
         },
         mounted: function() {
             this.loadUserData(() => {

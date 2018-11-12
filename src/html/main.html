@@ -81,34 +81,44 @@
             </div>
 
             <div v-if="state == 'sections' && !loading">
-                <div class="section thead">
-                    <div class="name">Name</div>
-                    <div class="instructor">Instructor</div>
-                    <div class="time">Time</div>
-                    <div class="location">Location</div>
-                    <div class="spaces">Spaces Left</div>
-                    <div class="pick">Pick</div>
+                <div class="cumulative" v-if="sections.length == 0">
+                    No Sections Found For This Class!
                 </div>
-                <div class="rows">
-                    <div class="section" v-for="section in sections">
-                        <div class="name">{{ section.longName }}</div>
-                        <div class="instructor">{{ section.person.displayName }}</div>
-                        <div class="time">{{ section.meetTime }}</div>
-                        <div class="location">{{ section.room }}</div>
-
-                        <div class="spaces" v-if="section.maxSize != undefined">{{ section.maxSize - section.size }}</div>
-                        <div class="spaces" v-if="section.maxSize == undefined">∞</div>
-
-                        <div class="pick" v-if="section.userPicked">✔</div>
-                        <div class="pick" v-if="!section.userPicked">
-                            <button @click="pickSection(section)">Pick</button>
+                <div v-if="sections.length != 0">
+                    <div class="section thead">
+                        <div class="name">Name</div>
+                        <div class="instructor">Instructor</div>
+                        <div class="time">Time</div>
+                        <div class="location">Location</div>
+                        <div class="spaces">Spaces Left</div>
+                        <div class="pick">Pick</div>
+                    </div>
+                    <div class="rows">
+                        <div class="section" v-for="section in sections">
+                            <div class="name">{{ section.longName }}</div>
+                            <div class="instructor">
+                                <!-- <a target="_blank" class="link" v-bind:href="evalLink(section.person)"> -->
+                                    {{ section.person.displayName }}
+                                    <!-- <img class="external" width="16" src="/icons/external.png" alt="" srcset=""> -->
+                                <!-- </a> -->
+                            </div>
+                            <div class="time">{{ section.meetTime }}</div>
+                            <div class="location">{{ section.room }}</div>
+    
+                            <div class="spaces" v-if="section.maxSize != undefined">{{ section.maxSize - section.size }}</div>
+                            <div class="spaces" v-if="section.maxSize == undefined">∞</div>
+    
+                            <div class="pick" v-if="section.userPicked">✔</div>
+                            <div class="pick" v-if="!section.userPicked">
+                                <button @click="pickSection(section)">Pick</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <script src="/dist/axios.min.js"></script>
     <script src="/dist/vue.js"></script>
     <script src="/src/api.js"></script>
