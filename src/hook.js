@@ -16,6 +16,12 @@ function getUrlVars(url) {
       ]
   };
 
+  chrome.browserAction.onClicked.addListener((tab) => {
+    chrome.tabs.create({
+      url: chrome.extension.getURL("src/html/main.html"),
+    });
+  });
+
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.method == "setIsOld") {
         localStorage.setItem("old", request.old);
@@ -33,7 +39,7 @@ function getUrlVars(url) {
     if (r) {
       if (details.url.indexOf("materials") >= 0) localStorage.setItem("state", "materials");
       if (details.url.indexOf("portal") >= 0) localStorage.setItem("state", "assignments");
-      
+
       var urlParams = getUrlVars(details.url);
       if (urlParams["uuid"] != undefined) {
         return ({redirectUrl: chrome.extension.getURL("src/html/main.html") + "#" + urlParams["uuid"]});

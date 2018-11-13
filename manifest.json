@@ -18,6 +18,7 @@
       "css": ["css/inject.css"]
     }
   ],
+  "browser_action": {},
   "web_accessible_resources": [
     "src/html/main.html"
   ],
