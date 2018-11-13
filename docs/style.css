@@ -1,0 +1,40 @@
+body {
+    font-family: "Archivo";
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.title {
+    font-size: 2em;
+    padding: 1rem;
+}
+
+.subtitle {
+    font-size: 1.2em;
+}
+
+.space {
+    padding: 2rem;
+}
+
+.link {
+    font-size: 2em;
+}
+
+.gh {
+    opacity: 0.2;
+    transition: 0.1s;
+}
+
+.gh:hover {
+    opacity: 0.8;
+}
+
+.footer {
+    color: rgb(189, 189, 189);
+    font-size: 0.5em;
+    padding-top: 0.6rem;
+    text-align: center;
+}
