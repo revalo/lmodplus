@@ -32,93 +32,100 @@
             </div>
         </div>
         <div class="content">
-            <div class="loader" v-if="loading"></div>
-
-            <div v-if="state == 'materials' && !loading">
-                <div v-if="numMats() == 0">
-                    No Materials Found, check <a v-bind:href="stellarLink()">Stellar</a>.
-                </div>
-                <div v-if="numMats() != 0">
-                    <div class="topic" v-for="topic in sortedMaterials">
-                        <div class="title">{{ topic.title }}</div>
-                        <div class="material" v-for="material in topic.materials">
-                            <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+            <div v-if="state == 'materials'">
+                <div class="loader" v-if="loading.materials"></div>
+                <div v-else>
+                    <div v-if="numMats() == 0">
+                        No Materials Found, check <a v-bind:href="stellarLink()">Stellar</a>.
+                    </div>
+                    <div v-if="numMats() != 0">
+                        <div class="topic" v-for="topic in sortedMaterials">
+                            <div class="title">{{ topic.title }}</div>
+                            <div class="material" v-for="material in topic.materials">
+                                <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div v-if="state == 'assignments' && !loading">
-                <div class="cumulative"><b>Cumulative Grade:</b> {{ cumulative }}</div>
-                <div class="assignment thead">
-                    <div class="name">Name</div>
-                    <div class="duedate">Due Date</div>
-                    <div class="grade">Grade</div>
-                    <div class="submissions">Submissions</div>
-                </div>
-                <div class="rows">
-                    <div class="assignment" v-for="assignment in assignments" >
-                        <div class="name">
-                            <div>
-                                {{ assignment.name }}
-                            </div>
-                            <div class="dl" v-for="dl in getDownloads(assignment.assignmentId)">
-                                <a v-bind:href="materialLink(dl)">{{ dl.title }}</a>
-                            </div>
-                        </div>
-                        <div class="duedate">{{ dateFormat(assignment.dueDate) }}</div>
-                        <div class="grade">
-                            <span v-if="assignment.maxPointsTotal == undefined">{{ assignment.gradeString }}</span>
-                            <span v-if="assignment.maxPointsTotal != undefined && assignment.gradeString != ''">{{ assignment.gradeString }} / {{ assignment.maxPointsTotal }}</span>
-                            <span v-if="assignment.maxPointsTotal != undefined && assignment.gradeString == ''">Ungraded / {{ assignment.maxPointsTotal }}</span>
-                        </div>
-                        <div class="submissions">
-                            <div class="dl" v-for="dl in getSubmissions(assignment.assignmentId)">
-                                <a v-bind:href="submissionLink(dl)">{{ dl.title }}</a> 
-                            </div>
-                        </div>
-                        <div class="submit">
-                            <input v-bind:id="assignment.assignmentId" type="file" v-on:change="uload(assignment.assignmentId)" hidden />
-                            <button @click="uloadClick(assignment.assignmentId)">Upload</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="state == 'sections' && !loading">
-                <div class="cumulative" v-if="sections.length == 0">
-                    No Sections Found For This Class!
-                </div>
-                <div v-if="sections.length != 0">
-                    <div class="section thead">
+            <div v-if="state == 'assignments'">
+                <div class="loader" v-if="loading.assignments"></div>
+                <div v-else>
+                    <div class="cumulative"><b>Cumulative Grade:</b> {{ cumulative }}</div>
+                    <div class="assignment thead">
                         <div class="name">Name</div>
-                        <div class="instructor">Instructor</div>
-                        <div class="time">Time</div>
-                        <div class="location">Location</div>
-                        <div class="spaces">Spaces Left</div>
-                        <div class="pick">Pick</div>
+                        <div class="duedate">Due Date</div>
+                        <div class="grade">Grade</div>
+                        <div class="submissions">Submissions</div>
                     </div>
                     <div class="rows">
-                        <div class="section" v-for="section in sections">
-                            <div class="name">{{ section.longName }}</div>
-                            <div class="instructor">
-                                <!-- <a target="_blank" class="link" v-bind:href="evalLink(section.person)"> -->
-                                    {{ section.person.displayName }}
-                                    <!-- <img class="external" width="16" src="/icons/external.png" alt="" srcset=""> -->
-                                <!-- </a> -->
+                        <div class="assignment" v-for="assignment in assignments" >
+                            <div class="name">
+                                <div>
+                                    {{ assignment.name }}
+                                </div>
+                                <div class="dl" v-for="dl in getDownloads(assignment.assignmentId)">
+                                    <a v-bind:href="materialLink(dl)">{{ dl.title }}</a>
+                                </div>
                             </div>
-                            <div class="time">{{ section.meetTime }}</div>
-                            <div class="location">
-                                <a class="link" v-bind:href="'https://mobi.mit.edu/map/index?filter=' + section.room + '&_recenter=true'">{{ section.room }}</a>
-                                <img class="external" width="16" src="/icons/external.png" alt="" srcset="">
+                            <div class="duedate">{{ dateFormat(assignment.dueDate) }}</div>
+                            <div class="grade">
+                                <span v-if="assignment.maxPointsTotal == undefined">{{ assignment.gradeString }}</span>
+                                <span v-if="assignment.maxPointsTotal != undefined && assignment.gradeString != ''">{{ assignment.gradeString }} / {{ assignment.maxPointsTotal }}</span>
+                                <span v-if="assignment.maxPointsTotal != undefined && assignment.gradeString == ''">Ungraded / {{ assignment.maxPointsTotal }}</span>
                             </div>
-    
-                            <div class="spaces" v-if="section.maxSize != undefined">{{ section.maxSize - section.size }}</div>
-                            <div class="spaces" v-if="section.maxSize == undefined">∞</div>
-    
-                            <div class="pick" v-if="section.userPicked">✔</div>
-                            <div class="pick" v-if="!section.userPicked">
-                                <button @click="pickSection(section)">Pick</button>
+                            <div class="submissions">
+                                <div class="dl" v-for="dl in getSubmissions(assignment.assignmentId)">
+                                    <a v-bind:href="submissionLink(dl)">{{ dl.title }}</a> 
+                                </div>
+                            </div>
+                            <div class="submit">
+                                <input v-bind:id="assignment.assignmentId" type="file" v-on:change="uload(assignment.assignmentId)" hidden />
+                                <button @click="uloadClick(assignment.assignmentId)">Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="state == 'sections'">
+                <div class="loader" v-if="loading.sections"></div>
+                <div v-else>
+                    <div class="cumulative" v-if="sections.length == 0">
+                        No Sections Found For This Class!
+                    </div>
+                    <div v-if="sections.length != 0">
+                        <div class="section thead">
+                            <div class="name">Name</div>
+                            <div class="instructor">Instructor</div>
+                            <div class="time">Time</div>
+                            <div class="location">Location</div>
+                            <div class="spaces">Spaces Left</div>
+                            <div class="pick">Pick</div>
+                        </div>
+                        <div class="rows">
+                            <div class="section" v-for="section in sections">
+                                <div class="name">{{ section.longName }}</div>
+                                <div class="instructor">
+                                    <!-- <a target="_blank" class="link" v-bind:href="evalLink(section.person)"> -->
+                                        {{ section.person.displayName }}
+                                        <!-- <img class="external" width="16" src="/icons/external.png" alt="" srcset=""> -->
+                                    <!-- </a> -->
+                                </div>
+                                <div class="time">{{ section.meetTime }}</div>
+                                <div class="location">
+                                    <a class="link" v-bind:href="'https://mobi.mit.edu/map/index?filter=' + section.room + '&_recenter=true'">{{ section.room }}</a>
+                                    <img class="external" width="16" src="/icons/external.png" alt="" srcset="">
+                                </div>
+        
+                                <div class="spaces" v-if="section.maxSize != undefined">{{ section.maxSize - section.size }}</div>
+                                <div class="spaces" v-if="section.maxSize == undefined">∞</div>
+        
+                                <div class="pick" v-if="section.userPicked">✔</div>
+                                <div class="pick" v-if="!section.userPicked">
+                                    <button @click="pickSection(section)">Pick</button>
+                                </div>
                             </div>
                         </div>
                     </div>

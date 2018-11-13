@@ -32,7 +32,11 @@ ready(() => {
             downloads: [],
             submissions: [],
             sections: [],
-            loading: false,
+            loading: {
+                materials: false,
+                assignments: false,
+                sections: false,
+            },
             cumulative: "N/A",
         },
         watch: {
@@ -75,10 +79,10 @@ ready(() => {
                 return "https://learning-modules.mit.edu/service/materials/assignments/" + submission.assignId + "/submissions/" + submission.subId + "/link";
             },
             loadCourseData: function(course) {
-                this.loading = true;
                 this.materials = [];
                 this.assignments = [];
 
+                this.loading.materials = true;
                 getMaterials(course, (res) => {
                     var topics = {};
 
@@ -100,8 +104,10 @@ ready(() => {
                                              timestamp: Date.parse(t.createdDate)});
                     }
 
-                    this.loading = false;
+                    this.loading.materials = false;
                 });
+
+                this.loading.assignments = true;
                 getAssignments(course, (res) => {
                     this.downloads = [];
                     this.submissions = [];
@@ -123,6 +129,7 @@ ready(() => {
                     for (let assignment of this.assignments) {
                         getAssignmentDownloads(assignment.assignmentId, (res) => {
                             this.downloads.push({id: assignment.assignmentId, downloads: res});
+                            this.loading.assignments = false;
                         });
                         getSubmissions(assignment.assignmentId, (res) => {
                             const currSubs = [];
@@ -139,13 +146,14 @@ ready(() => {
 
                 let memberLookup = [];
                 let userLookup = [];
-
+                this.sections = [];
+                
+                this.loading.sections = true;
                 getSections(course, (r) => {
                     memberLookup = r;
                 }, (u) => {
                     userLookup = u;
                 }, (res) => {
-                    this.sections = [];
                     for (let section of res) {
                         let person = memberLookup.filter(m => (m.uuid == section.uuid && (m.role == "Instructor" || m.role == "TA") && m.inherited == false))[0];
                         if (person == undefined) {
@@ -155,10 +163,14 @@ ready(() => {
                         section.userPicked = (userLookup.filter(u => u.uuid == section.uuid).length > 0);
                         this.sections.push(section);
                     }
+                    this.loading.sections = false;
                 });
             },
             loadUserData: function(callback) {
-                this.loading = true;
+                this.loading.materials = true;
+                this.loading.assignments = true;
+                this.loading.sections = true;
+
                 this.classes = [];
 
                 getClasses((res) => {
@@ -166,7 +178,10 @@ ready(() => {
                         this.classes.push(c);
                     }
                     callback();
-                    this.loading = false;
+
+                    this.loading.materials = false;
+                    this.loading.assignments = false;
+                    this.loading.sections = false;
                 });
             },
             reloadCourse: function() {
