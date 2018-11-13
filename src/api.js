@@ -2,12 +2,18 @@ let userEmail = "";
 let studentId = -1;
 let myPersonId = -1;
 
+const CancelToken = axios.CancelToken;
+let source = CancelToken.source();
+
 function get(url, callback) {
     axios.request({
         url: "https://learning-modules.mit.edu" + url,
         method: "get",
+        cancelToken: source.token,
     }).then((r) => {
         callback(r.data);
+    }).catch((e) => {
+
     });
 }
 
@@ -23,9 +29,9 @@ function ready(callback) {
 
 function setIsOld(old) {
     localStorage.setItem("old", old);
-    chrome.runtime.sendMessage({method: "setIsOld", old: old}, function(response) {
-        console.log(response.data);
-    });
+    // chrome.runtime.sendMessage({method: "setIsOld", old: old}, function(response) {
+    //     console.log(response.data);
+    // });
 }
 
 function sendLogin() {
@@ -125,4 +131,9 @@ function changeSection(sectionId, callback) {
     ).then((res) => {
         callback(res);
     });
+}
+
+function cancelAllAjax() {
+    source.cancel("Canceled!");
+    source = CancelToken.source();
 }

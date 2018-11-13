@@ -35,7 +35,7 @@
             <div v-if="state == 'materials'">
                 <div class="loader" v-if="loading.materials"></div>
                 <div v-else>
-                    <div v-if="numMats() == 0">
+                    <div v-if="numMats() == 0" class="cumulative">
                         No Materials Found, check <a v-bind:href="stellarLink()">Stellar</a>.
                     </div>
                     <div v-if="numMats() != 0">
@@ -135,7 +135,7 @@
     </div>
     
     <script src="/dist/axios.min.js"></script>
-    <script src="/dist/vue.js"></script>
+    <script src="/dist/vue.min.js"></script>
     <script src="/src/api.js"></script>
     <script src="/src/main.js"></script>
 </body>

@@ -185,6 +185,7 @@ ready(() => {
                 });
             },
             reloadCourse: function() {
+                cancelAllAjax();
                 setCurrentCourse(this.currentCourse);
                 this.loadCourseData(this.currentCourse);
             },
