@@ -4,7 +4,7 @@ body {
 
 .container {
     display: grid;
-    grid-template-columns: 10% auto;
+    grid-template-columns: 8rem auto;
     grid-template-rows: 4rem 2rem 100%;
 
     grid-template-areas:
@@ -77,11 +77,11 @@ body {
 
 .assignment {
     display: grid;
-    grid-template-columns: 1.9fr 1.3fr 0.8fr 1.2fr 0.3fr;
+    grid-template-columns: 1.9fr 1.3fr 0.8fr 1fr 1.2fr 0.3fr;
     grid-template-rows: auto;
 
     grid-template-areas:
-        "name duedate grade submissions submit";
+        "name duedate grade solutions submissions submit";
     align-items: center;
 
     padding-bottom: 1rem;

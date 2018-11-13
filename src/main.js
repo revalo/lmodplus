@@ -31,6 +31,7 @@ ready(() => {
             assignments: [],
             downloads: [],
             submissions: [],
+            solutions: [],
             sections: [],
             loading: {
                 materials: false,
@@ -57,6 +58,12 @@ ready(() => {
                 if (filtered.length == 0) return [];
                 if (filtered[0].downloads == undefined) return [];
                 return filtered[0].downloads;
+            },
+            getSolutions: function(id) {
+                const filtered = this.solutions.filter(d => d.id == id);
+                if (filtered.length == 0) return [];
+                if (filtered[0].solutions == undefined) return [];
+                return filtered[0].solutions;
             },
             getSubmissions: function(id) {
                 const filtered = this.submissions.filter(s => s.id == id);
@@ -110,6 +117,7 @@ ready(() => {
                 this.loading.assignments = true;
                 getAssignments(course, (res) => {
                     this.downloads = [];
+                    this.solutions = [];
                     this.submissions = [];
 
                     if (res.overallGradeInformation.cumulativePoints != undefined) {
@@ -130,6 +138,8 @@ ready(() => {
                         getAssignmentDownloads(assignment.assignmentId, (res) => {
                             this.downloads.push({id: assignment.assignmentId, downloads: res});
                             this.loading.assignments = false;
+                        }, (res2) => {
+                            this.solutions.push({id: assignment.assignmentId, solutions: res2});
                         });
                         getSubmissions(assignment.assignmentId, (res) => {
                             const currSubs = [];

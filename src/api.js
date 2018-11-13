@@ -29,9 +29,6 @@ function ready(callback) {
 
 function setIsOld(old) {
     localStorage.setItem("old", old);
-    // chrome.runtime.sendMessage({method: "setIsOld", old: old}, function(response) {
-    //     console.log(response.data);
-    // });
 }
 
 function sendLogin() {
@@ -69,9 +66,10 @@ function getClasses(callback) {
     });
 }
 
-function getAssignmentDownloads(assingId, callback) {
+function getAssignmentDownloads(assingId, callback, solution) {
     get("/service/materials/assignments/" + assingId, (res) => {
         callback(res.assignment);
+        solution(res.solution);
     });
 }
 
@@ -125,8 +123,8 @@ function getSections(course, memberCallback, userCallback, callback) {
 function changeSection(sectionId, callback) {
     axios.post("https://learning-modules.mit.edu/service/membership/group/" + sectionId + "/member?syncIndex=true",
         [{
-                personId: myPersonId,
-                role: "Learner",  // TODO Can we hardcode this?
+            personId: myPersonId,
+            role: "Learner",  // TODO Can we hardcode this?
         }]
     ).then((res) => {
         callback(res);
