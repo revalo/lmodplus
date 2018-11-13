@@ -209,6 +209,14 @@ ready(() => {
                 const scode = ""; //this.classes.filter(c => c.uuid == this.currentCourse)[0].name;
                 const name = person.lastName + ", " + person.firstName;
                 return "https://eduapps.mit.edu/ose-rpt/subjectEvaluationSearch.htm?termId=&departmentId=&subjectCode=" + scode + "&instructorName=" + name + "&search=Search";
+            },
+            numMats: function() {
+                let count = 0;
+                for (topic of this.materials) count += topic.materials.length;
+                return count;
+            },
+            stellarLink: function() {
+                return "https://stellar.mit.edu/S" + this.currentCourse + "/materials.html";
             }
         },
         mounted: function() {

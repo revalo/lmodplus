@@ -34,11 +34,16 @@
         <div class="content">
             <div class="loader" v-if="loading"></div>
 
-            <div v-if="state == 'materials'">
-                <div class="topic" v-for="topic in sortedMaterials">
-                    <div class="title">{{ topic.title }}</div>
-                    <div class="material" v-for="material in topic.materials">
-                        <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+            <div v-if="state == 'materials' && !loading">
+                <div v-if="numMats() == 0">
+                    No Materials Found, check <a v-bind:href="stellarLink()">Stellar</a>.
+                </div>
+                <div v-if="numMats() != 0">
+                    <div class="topic" v-for="topic in sortedMaterials">
+                        <div class="title">{{ topic.title }}</div>
+                        <div class="material" v-for="material in topic.materials">
+                            <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,7 +108,10 @@
                                 <!-- </a> -->
                             </div>
                             <div class="time">{{ section.meetTime }}</div>
-                            <div class="location">{{ section.room }}</div>
+                            <div class="location">
+                                <a class="link" v-bind:href="'https://mobi.mit.edu/map/index?filter=' + section.room + '&_recenter=true'">{{ section.room }}</a>
+                                <img class="external" width="16" src="/icons/external.png" alt="" srcset="">
+                            </div>
     
                             <div class="spaces" v-if="section.maxSize != undefined">{{ section.maxSize - section.size }}</div>
                             <div class="spaces" v-if="section.maxSize == undefined">∞</div>

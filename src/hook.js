@@ -31,6 +31,9 @@ function getUrlVars(url) {
     else if (old == "true") r = false;
 
     if (r) {
+      if (details.url.indexOf("materials") >= 0) localStorage.setItem("state", "materials");
+      if (details.url.indexOf("portal") >= 0) localStorage.setItem("state", "assignments");
+      
       var urlParams = getUrlVars(details.url);
       if (urlParams["uuid"] != undefined) {
         return ({redirectUrl: chrome.extension.getURL("src/html/main.html") + "#" + urlParams["uuid"]});
