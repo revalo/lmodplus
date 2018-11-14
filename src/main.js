@@ -43,6 +43,7 @@ ready(() => {
         watch: {
             state: function(a, b) {
                 localStorage.setItem("state", a);
+                tracker.sendAppView(a);
             }
         },
         computed: {
@@ -255,6 +256,7 @@ ready(() => {
 
                 const lastState = localStorage.getItem("state");
                 if (lastState != undefined) this.state = lastState;
+                tracker.sendAppView(this.state);
 
                 setCurrentCourse(this.currentCourse);
 
