@@ -10,7 +10,7 @@ LMOD+ is a Chrome Extention. Download it from the [Chrome Web Store](https://chr
 
 ### Setup
 
-Simply clone the repo and drag the extention into `chrome://extentions`. The main app HTML and CSS should hot reload with every change. Anything that changes with the manifest or the injection scripts need to be manually reloaded.
+Simply clone the repo and drag the extention into `chrome://extensions`. The main app HTML and CSS should hot reload with every change. Anything that changes with the manifest or the injection scripts need to be manually reloaded.
 
 ### Codebase
 
