@@ -258,3 +258,10 @@ body {
 .external {
     opacity: 0.5;
 }
+
+.description {
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    color: #95a5a6;
+    font-size: 0.8em;
+}

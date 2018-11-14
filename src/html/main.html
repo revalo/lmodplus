@@ -43,6 +43,7 @@
                             <div class="title">{{ topic.title }}</div>
                             <div class="material" v-for="material in topic.materials">
                                 <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+                                <div class="description">{{ material.description }}</div>
                             </div>
                         </div>
                     </div>

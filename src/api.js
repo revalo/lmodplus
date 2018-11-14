@@ -13,7 +13,8 @@ function get(url, callback) {
     }).then((r) => {
         callback(r.data);
     }).catch((e) => {
-
+        if (e.message == 'Canceled!') return;
+        sendLogin();
     });
 }
 
