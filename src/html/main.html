@@ -23,6 +23,7 @@
             <div class="tab" @click="state = 'materials'">Materials</div><br>
             <div class="tab" @click="state = 'assignments'">Assignments</div><br>
             <div class="tab" @click="state = 'sections'">Sections</div><br>
+            <div class="tab" @click="state = 'settings'">Settings</div><br>
             <div class="tab" @click="switchOld">Old LMOD</div>
 
             <a href="https://github.com/revalo/lmodplus" target="_blank"><div class="github"></div></a>
@@ -138,18 +139,28 @@
                     </div>
                 </div>
             </div>
+            <div class="settings" v-if="state == 'settings'">
+                <settings-component></settings-component>
+            </div>
         </div>
     </div>
 
-    <!-- ga -->
-    <script src="/dist/google-analytics-bundle.js"></script>
-    <script src="/dist/ga.js"></script>
+    <script type="text/x-template" id="settings-template">
+        <div>
+            <div class="setting">
+                <label><input type="checkbox" v-model="customUploadName"> Ask For Name Before Uploading</label>
+            </div>
+            <div class="setting">
+                <label><input type="checkbox" v-model="track">Send Anonymous Usage Data</label>
+            </div>
+        </div>
+    </script>
 
-    <!-- libs -->
     <script src="/dist/axios.min.js"></script>
     <script src="/dist/vue.min.js"></script>
-
-    <!-- code -->
+    <script src="/dist/google-analytics-bundle.js"></script>
+    <script src="/src/settings.js"></script>
+    <script src="/dist/ga.js"></script>
     <script src="/src/api.js"></script>
     <script src="/src/main.js"></script>
 </body>

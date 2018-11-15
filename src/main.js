@@ -210,10 +210,21 @@ ready(() => {
             uload: function(id) {
                 const file = document.getElementById(''+id).files[0];
                 console.log("Got file", file);
-                createNewSubmission(id, file.name, (res) => {
+
+                let fileName = file.name;
+
+                if (getSetting("customUploadName", false)) {
+                    let promptReply = prompt("Name your upload");
+                    if (promptReply == null || promptReply == "") {
+                        return;
+                    }
+                    fileName = promptReply;
+                }
+
+                createNewSubmission(id, fileName, (res) => {
                     console.log("Created submission, return data", res)
                     var submissionId = res.data.submission.submissionId;
-                    uploadFile(file, file.name, id, submissionId, () => {
+                    uploadFile(file, fileName, id, submissionId, () => {
                         console.log("File upload done?");
                         this.reloadCourse();
                     });
