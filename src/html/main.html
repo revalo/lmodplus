@@ -43,6 +43,9 @@
                         <div class="topic" v-for="topic in sortedMaterials">
                             <div class="title">{{ topic.title }}</div>
                             <div class="material" v-for="material in topic.materials">
+                                <span class="badge url" v-if="materialType(material) == 'url'">URL</span>
+                                <span class="badge pdf" v-if="materialType(material) == 'pdf'">PDF</span>
+                                <span class="badge word" v-if="materialType(material) == 'word'">DOC</span>
                                 <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
                                 <div class="description">{{ material.description }}</div>
                             </div>
@@ -149,6 +152,9 @@
         <div>
             <div class="setting">
                 <label><input type="checkbox" v-model="customUploadName"> Ask For Name Before Uploading</label>
+            </div>
+            <div class="setting">
+                <label><input type="checkbox" v-model="showTypes"> Show File Types In Materials</label>
             </div>
             <div class="setting">
                 <label><input type="checkbox" v-model="track">Send Anonymous Usage Data</label>

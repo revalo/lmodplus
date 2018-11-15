@@ -83,6 +83,17 @@ ready(() => {
                 if (material.type == 'url')
                     return material.url;
             },
+            materialType: function(material) {
+                if (!getSetting("showTypes", false)) return "";
+
+                if (material.type == "url") return "url";
+                if (material.type == "document") {
+                    if (material.mimeType == "application/pdf") return "pdf";
+                    if (material.mimeType == "application/msword") return "word";
+                    if (material.mimeType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return "word";
+                }
+                return "";
+            },
             submissionLink: function(submission) {
                 return "https://learning-modules.mit.edu/service/materials/assignments/" + submission.assignId + "/submissions/" + submission.subId + "/link";
             },

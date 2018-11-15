@@ -13,6 +13,7 @@ Vue.component("settings-component", {
       return {
           customUploadName: false,
           track: true,
+          showTypes: false,
       }
     },
     watch: {
@@ -22,10 +23,14 @@ Vue.component("settings-component", {
         customUploadName: function(a, b) {
             setSetting("customUploadName", a);
         },
+        showTypes: function(a, b) {
+            setSetting("showTypes", a);
+        }
     },
     mounted: function() {
         this.track = getSetting("track", true);
         this.customUploadName = getSetting("customUploadName", false);
+        this.showTypes = getSetting("showTypes", false);
     },
     template: '#settings-template'
 })

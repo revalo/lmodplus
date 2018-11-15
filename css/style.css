@@ -270,3 +270,24 @@ body {
     font-size: 1.1em;
     margin: 0.7rem;
 }
+
+.badge {
+    font-size: 0.5em;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 5px;
+    line-height: 3;
+    font-weight: bold;
+}
+
+.badge.url {
+    background-color: #8a8aff;
+}
+
+.badge.pdf {
+    background-color: #f92424;
+}
+
+.badge.word {
+    background-color: #12ad1e;
+}
