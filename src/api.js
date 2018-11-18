@@ -80,6 +80,12 @@ function getSubmissions(assignId, callback) {
     })
 }
 
+function getComments(assignId, callback) {
+    get("/service/materials/assignments/" + assignId + "/comments?accountEmail=" + userEmail, (res) => {
+        callback(res);
+    })
+}
+
 function createNewSubmission(assignId, title, callback) {
     axios.post("https://learning-modules.mit.edu/service/gradebook/submission", {
         studentId: studentId,
