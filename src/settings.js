@@ -1,8 +1,17 @@
+const defaults = {
+    "track": true,
+    "customUploadName": false,
+    "showTypes": true,
+}
+
 function setSetting(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
 function getSetting(key, defaultValue) {
+    if (defaultValue == undefined && defaults[key] != undefined)
+        defaultValue  = defaults[key]
+
     let val = localStorage.getItem(key);
     if (val != undefined && val != "undefined") return JSON.parse(val);
     return defaultValue;
@@ -28,9 +37,9 @@ Vue.component("settings-component", {
         }
     },
     mounted: function() {
-        this.track = getSetting("track", true);
-        this.customUploadName = getSetting("customUploadName", false);
-        this.showTypes = getSetting("showTypes", false);
+        this.track = getSetting("track");
+        this.customUploadName = getSetting("customUploadName");
+        this.showTypes = getSetting("showTypes");
     },
     template: '#settings-template'
 })

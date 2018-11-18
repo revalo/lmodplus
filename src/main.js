@@ -84,7 +84,7 @@ ready(() => {
                     return material.url;
             },
             materialType: function(material) {
-                if (!getSetting("showTypes", false)) return "";
+                if (!getSetting("showTypes")) return "";
 
                 if (material.type == "url") return "url";
                 if (material.type == "document") {
@@ -224,7 +224,7 @@ ready(() => {
 
                 let fileName = file.name;
 
-                if (getSetting("customUploadName", false)) {
+                if (getSetting("customUploadName")) {
                     let promptReply = prompt("Name your upload");
                     if (promptReply == null || promptReply == "") {
                         return;
