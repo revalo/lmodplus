@@ -9,7 +9,7 @@ body {
 
     grid-template-areas:
         "header header"
-        "selector none"
+        "selector content"
         "sidebar content";
 
     margin: 2rem;
