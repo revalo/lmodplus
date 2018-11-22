@@ -20,10 +20,10 @@
             </select>
         </div>
         <div class="sidebar">
-            <div class="tab" @click="state = 'materials'">Materials</div><br>
-            <div class="tab" @click="state = 'assignments'">Assignments</div><br>
-            <div class="tab" @click="state = 'sections'">Sections</div><br>
-            <div class="tab" @click="state = 'settings'">Settings</div><br>
+            <div class="tab" v-bind:class="{selected: state == 'materials'}" @click="state = 'materials'">Materials</div><br>
+            <div class="tab" v-bind:class="{selected: state == 'assignments'}" @click="state = 'assignments'">Assignments</div><br>
+            <div class="tab" v-bind:class="{selected: state == 'sections'}" @click="state = 'sections'">Sections</div><br>
+            <div class="tab" v-bind:class="{selected: state == 'settings'}" @click="state = 'settings'">Settings</div><br>
             <div class="tab" @click="switchOld">Old LMOD</div>
 
             <a href="https://github.com/revalo/lmodplus" target="_blank"><div class="github"></div></a>
@@ -170,7 +170,7 @@
 
     <script src="/dist/axios.min.js"></script>
     <script src="/dist/vue.min.js"></script>
-    
+
     <script src="/src/settings.js"></script>
     <script src="/src/api.js"></script>
     <script src="/src/main.js"></script>

@@ -37,6 +37,10 @@ body {
     font-weight: bold;
 }
 
+.tab.selected {
+    border-right: 5px silver solid;
+}
+
 .header {
     grid-area: header;
     font-size: 3em;
