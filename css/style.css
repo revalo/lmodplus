@@ -291,3 +291,14 @@ body {
 .badge.word {
     background-color: #12ad1e;
 }
+
+.duedatehelp {
+    font-size: 0.6em;
+    color: white;
+    border: solid rgb(223, 0, 0) 1px;
+    background-color: rgb(223, 0, 0);
+    padding: 0.3rem;
+    border-radius: 5px;
+    line-height: 3;
+    font-weight: bold;
+}

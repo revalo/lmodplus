@@ -76,6 +76,30 @@ ready(() => {
                 const date = new Date(ts);
                 return date.toDateString().replace(/\w+[.!?]?$/, '') + date.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
             },
+            dateDueString: function(ts) {
+                const date = new Date(ts);
+                const now = new Date();
+                const days = (date - now) / (1000 * 60 * 60 * 24);
+
+                if (days < 0) return;
+
+                var weekdays = new Array(7);
+                weekdays[0] = "Sunday";
+                weekdays[1] = "Monday";
+                weekdays[2] = "Tuesday";
+                weekdays[3] = "Wednesday";
+                weekdays[4] = "Thursday";
+                weekdays[5] = "Friday";
+                weekdays[6] = "Saturday"
+
+                const day = weekdays[date.getDay()];
+
+                if (days <= 3) {
+                    return "This " + day;
+                } else if (days <= 7) {
+                    return "Next " + day;
+                }
+            },
             materialLink: function(material) {
                 if (material.type == 'document')
                     return "https://learning-modules.mit.edu" + material.downloadUrl;
