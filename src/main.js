@@ -43,7 +43,6 @@ ready(() => {
         watch: {
             state: function(a, b) {
                 localStorage.setItem("state", a);
-                tracker.sendAppView(a);
             }
         },
         computed: {
@@ -78,7 +77,7 @@ ready(() => {
             },
             dateDueString: function(ts) {
                 if (!getSetting("showDueDateHelpers")) return;
-                
+
                 const date = new Date(ts);
                 const now = new Date();
                 const days = (date - now) / (1000 * 60 * 60 * 24);
@@ -304,7 +303,6 @@ ready(() => {
 
                 const lastState = localStorage.getItem("state");
                 if (lastState != undefined) this.state = lastState;
-                tracker.sendAppView(this.state);
 
                 setCurrentCourse(this.currentCourse);
 

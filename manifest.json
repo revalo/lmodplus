@@ -33,7 +33,6 @@
     "webRequestBlocking",
     "cookies",
     "storage",
-    "https://www.google-analytics.com/",
     "*://learning-modules.mit.edu/*",
     "*://plus.mit.edu/*"
   ]
