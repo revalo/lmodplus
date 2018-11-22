@@ -2,6 +2,7 @@ const defaults = {
     "track": true,
     "customUploadName": false,
     "showTypes": true,
+    "showDueDateHelpers": true,
 }
 
 function setSetting(key, value) {
@@ -23,6 +24,7 @@ Vue.component("settings-component", {
           customUploadName: false,
           track: true,
           showTypes: false,
+          showDueDateHelpers: true,
       }
     },
     watch: {
@@ -34,12 +36,16 @@ Vue.component("settings-component", {
         },
         showTypes: function(a, b) {
             setSetting("showTypes", a);
+        },
+        showDueDateHelpers: function(a, b) {
+            setSetting("showDueDateHelpers", a);
         }
     },
     mounted: function() {
         this.track = getSetting("track");
         this.customUploadName = getSetting("customUploadName");
         this.showTypes = getSetting("showTypes");
+        this.showDueDateHelpers = getSetting("showDueDateHelpers");
     },
     template: '#settings-template'
 })

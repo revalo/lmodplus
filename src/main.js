@@ -77,6 +77,8 @@ ready(() => {
                 return date.toDateString().replace(/\w+[.!?]?$/, '') + date.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
             },
             dateDueString: function(ts) {
+                if (!getSetting("showDueDateHelpers")) return;
+                
                 const date = new Date(ts);
                 const now = new Date();
                 const days = (date - now) / (1000 * 60 * 60 * 24);
