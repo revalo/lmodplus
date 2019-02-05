@@ -296,6 +296,10 @@ body {
     background-color: #12ad1e;
 }
 
+.badge.zip {
+    background-color: #520d30;
+}
+
 .duedatehelp {
     font-size: 0.6em;
     color: white;

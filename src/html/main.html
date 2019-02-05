@@ -46,6 +46,7 @@
                                 <span class="badge url" v-if="materialType(material) == 'url'">URL</span>
                                 <span class="badge pdf" v-if="materialType(material) == 'pdf'">PDF</span>
                                 <span class="badge word" v-if="materialType(material) == 'word'">DOC</span>
+                                <span class="badge zip" v-if="materialType(material) == 'zip'">ZIP</span>
                                 <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
                                 <div class="description">{{ material.description }}</div>
                             </div>
