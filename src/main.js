@@ -189,6 +189,8 @@ ready(() => {
                             this.submissions.push({id: assignment.assignmentId, submissions: currSubs});
                         });
                     }
+
+                    if (this.assignments.length == 0) this.loading.assignments = false;
                 });
 
                 let memberLookup = [];
