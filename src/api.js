@@ -21,7 +21,9 @@ function get(url, callback) {
 function ready(callback) {
     get("/service/membership/user", (res) => {
         console.log('USER', res);
-        if (res.response.docs.length == 0) sendLogin();
+        if (res.response.docs.length == 0) { sendLogin(); return; }
+        if (res.response.docs[0] == undefined) { sendLogin(); return; }
+        
         userEmail = res.response.docs[0].email;
         myPersonId = res.response.docs[0].id;
         callback();
@@ -33,7 +35,12 @@ function setIsOld(old) {
 }
 
 function sendLogin() {
-    window.location.replace("https://learning-modules.mit.edu/Shibboleth.sso/Login?target=https%3A%2F%2Flearning-modules.mit.edu%2Fclass%2Findex.html%3Fuuid%3D%2Fcourse%2F18%2Ffa18%2F18.06%23dashboard")
+    get("/service/membership/user", (res) => {
+        if (res.response.docs[0] == undefined || res.response.docs.length == 0) {
+            let redirectUrl = `https://learning-modules.mit.edu/class/index.html?uuid=${getCurrentCourse()}#dashboard`;
+            window.location.replace(`https://learning-modules.mit.edu/Shibboleth.sso/Login?target=${encodeURI(redirectUrl)}`);
+        }
+    });
 }
 
 function getMaterials(course, callback) {

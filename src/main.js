@@ -10,9 +10,9 @@ if (window.location.hash) {
 
 function getCurrentCourse() {
     if (window.location.hash) {
-        return window.location.hash.substring(1);
+        return window.location.hash.substring(1).split("#")[0];
     } else {
-        return localStorage.getItem("currentCourse");
+        return localStorage.getItem("currentCourse").split("#")[0];
     }
 }
 
@@ -227,6 +227,14 @@ ready(() => {
                     for (let c of res) {
                         this.classes.push(c);
                     }
+
+                    if (this.currentCourse != undefined && !this.classes.some(c => c.uuid == this.currentCourse)) {
+                        this.classes.push({
+                            uuid: this.currentCourse,
+                            name: this.currentCourse.split('/')[this.currentCourse.split('/').length-1],
+                        });
+                    }
+
                     callback();
 
                     this.loading.materials = false;
@@ -235,6 +243,7 @@ ready(() => {
                 });
             },
             reloadCourse: function() {
+                if (this.currentCourse == undefined) return;
                 cancelAllAjax();
                 setCurrentCourse(this.currentCourse);
                 this.loadCourseData(this.currentCourse);
@@ -297,17 +306,12 @@ ready(() => {
             }
         },
         mounted: function() {
-            this.loadUserData(() => {
-                const cc = getCurrentCourse();
-                if (cc == undefined || !this.classes.some(c => c.uuid == cc))
-                    this.currentCourse = this.classes[0].uuid;
-                else
-                    this.currentCourse = cc;
+            const cc = getCurrentCourse();
+            this.currentCourse = cc;
 
+            this.loadUserData(() => {
                 const lastState = localStorage.getItem("state");
                 if (lastState != undefined) this.state = lastState;
-
-                setCurrentCourse(this.currentCourse);
 
                 this.loadCourseData(this.currentCourse);
             })
