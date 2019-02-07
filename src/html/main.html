@@ -23,6 +23,7 @@
             <div class="tab" v-bind:class="{selected: state == 'materials'}" @click="state = 'materials'">Materials</div><br>
             <div class="tab" v-bind:class="{selected: state == 'assignments'}" @click="state = 'assignments'">Assignments</div><br>
             <div class="tab" v-bind:class="{selected: state == 'sections'}" @click="state = 'sections'">Sections</div><br>
+            <a class="nodecor" href="https://stellar.mit.edu"><div class="tab">Browse Courses</div></a><br>
             <div class="tab" v-bind:class="{selected: state == 'settings'}" @click="state = 'settings'">Settings</div><br>
             <div class="tab" @click="switchOld">Old LMOD</div>
 
@@ -126,10 +127,10 @@
                             <div class="section" v-for="section in sections">
                                 <div class="name">{{ section.longName }}</div>
                                 <div class="instructor">
-                                    <!-- <a target="_blank" class="link" v-bind:href="evalLink(section.person)"> -->
+                                    <a target="_blank" class="link" v-bind:href="evalLink(section.person)">
                                         {{ section.person.displayName }}
-                                        <!-- <img class="external" width="16" src="/icons/external.png" alt="" srcset=""> -->
-                                    <!-- </a> -->
+                                        <img class="external" width="16" src="/icons/external.png" alt="" srcset="">
+                                    </a>
                                 </div>
                                 <div class="time">{{ section.meetTime }}</div>
                                 <div class="location">

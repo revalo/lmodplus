@@ -310,3 +310,7 @@ body {
     line-height: 3;
     font-weight: bold;
 }
+
+.nodecor {
+    text-decoration: none;
+}
