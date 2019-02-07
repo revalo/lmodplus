@@ -306,10 +306,17 @@ ready(() => {
             }
         },
         mounted: function() {
-            const cc = getCurrentCourse();
-            this.currentCourse = cc;
+            if (localStorage.getItem("currentCourse") != null) {
+                const cc = getCurrentCourse();
+                this.currentCourse = cc;
+            } else {
+                this.currentCourse = undefined;
+            }
 
             this.loadUserData(() => {
+                if (this.currentCourse == undefined) {
+                    this.currentCourse = this.classes[0].uuid;
+                }
                 const lastState = localStorage.getItem("state");
                 if (lastState != undefined) this.state = lastState;
 
