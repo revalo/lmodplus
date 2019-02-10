@@ -12,6 +12,7 @@ function getCurrentCourse() {
     if (window.location.hash) {
         return window.location.hash.substring(1).split("#")[0];
     } else {
+        if (localStorage.getItem("currentCourse") == null) return "";
         return localStorage.getItem("currentCourse").split("#")[0];
     }
 }
