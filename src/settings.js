@@ -2,6 +2,7 @@ const defaults = {
     "customUploadName": false,
     "showTypes": true,
     "showDueDateHelpers": true,
+    "keepAlive": true,
 }
 
 function setSetting(key, value) {
@@ -23,6 +24,7 @@ Vue.component("settings-component", {
           customUploadName: false,
           showTypes: false,
           showDueDateHelpers: true,
+          keepAlive: true,
       }
     },
     watch: {
@@ -34,12 +36,16 @@ Vue.component("settings-component", {
         },
         showDueDateHelpers: function(a, b) {
             setSetting("showDueDateHelpers", a);
+        },
+        keepAlive: function(a, b) {
+            setSetting("keepAlive", a);
         }
     },
     mounted: function() {
         this.customUploadName = getSetting("customUploadName");
         this.showTypes = getSetting("showTypes");
         this.showDueDateHelpers = getSetting("showDueDateHelpers");
+        this.keepAlive = getSetting("keepAlive");
     },
     template: '#settings-template'
 })

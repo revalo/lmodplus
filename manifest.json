@@ -1,6 +1,6 @@
 {
   "name": "LMOD Plus",
-  "version": "0.0.2.12",
+  "version": "0.0.2.13",
   "manifest_version": 2,
   "description": "Removes all bloat from the learning modules MIT site.",
   "icons": {
@@ -24,8 +24,11 @@
   ],
   "background": {
     "scripts": [
-      "src/hook.js"
-    ]
+      "dist/axios.min.js",
+      "src/hook.js",
+      "src/keepalive.js"
+    ],
+    "persistent": true
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "permissions": [
