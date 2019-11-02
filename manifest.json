@@ -1,6 +1,6 @@
 {
   "name": "LMOD Plus",
-  "version": "0.0.2.13",
+  "version": "0.0.2.14",
   "manifest_version": 2,
   "description": "Removes all bloat from the learning modules MIT site.",
   "icons": {

@@ -118,6 +118,8 @@ ready(() => {
                     if (material.mimeType == "application/msword") return "word";
                     if (material.mimeType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return "word";
                     if (material.mimeType == "application/x-zip-compressed") return "zip";
+                    if (material.mimeType == "application/vnd.ms-powerpoint") return "ppt";
+                    if (material.mimeType == "application/vnd.openxmlformats-officedocument.presentationml.presentation") return "ppt";
                 }
                 return "";
             },

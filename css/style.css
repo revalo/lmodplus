@@ -300,6 +300,10 @@ body {
     background-color: #520d30;
 }
 
+.badge.ppt {
+    background-color: #ff6767;
+}
+
 .duedatehelp {
     font-size: 0.6em;
     color: white;
