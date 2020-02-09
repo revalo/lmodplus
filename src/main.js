@@ -130,14 +130,7 @@ ready(() => {
                 if (!getSetting("showTypes")) return "";
 
                 if (material.type == "url") return "url";
-                if (material.type == "document") {
-                    if (material.mimeType == "application/pdf") return "pdf";
-                    if (material.mimeType == "application/msword") return "word";
-                    if (material.mimeType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return "word";
-                    if (material.mimeType == "application/x-zip-compressed") return "zip";
-                    if (material.mimeType == "application/vnd.ms-powerpoint") return "ppt";
-                    if (material.mimeType == "application/vnd.openxmlformats-officedocument.presentationml.presentation") return "ppt";
-                }
+                if (material.type == "document") return mimeTypeShortDescription(material.mimeType);
                 return "";
             },
             commentType: function(comment) {
