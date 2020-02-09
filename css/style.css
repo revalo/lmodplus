@@ -81,11 +81,11 @@ body {
 
 .assignment {
     display: grid;
-    grid-template-columns: 1.9fr 1.3fr 0.8fr 1fr 1.2fr 0.3fr;
+    grid-template-columns: 1.8fr 1.2fr 0.4fr 0.9fr 1fr 0.6fr 0.3fr;
     grid-template-rows: auto;
 
     grid-template-areas:
-        "name duedate grade solutions submissions submit";
+        "name duedate grade solutions submissions comments submit";
     align-items: center;
 
     padding-bottom: 1rem;
@@ -114,6 +114,10 @@ body {
 
 .assignment > .submissions {
     grid-area: submissions;
+}
+
+.assignment > .comments {
+    grid-area: comments;
 }
 
 .grade-title {
@@ -302,6 +306,22 @@ body {
 
 .badge.ppt {
     background-color: #ff6767;
+}
+
+.comment {
+    color: #434343;
+}
+
+.comment:hover {
+    color: black;
+}
+
+.comment:nth-child(even) {
+    background-color: #DFDFDF;
+}
+
+.comment:nth-child(odd) {
+    background-color: #E8E8EE;
 }
 
 .duedatehelp {
