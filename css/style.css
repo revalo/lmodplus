@@ -308,14 +308,6 @@ body {
     background-color: #ff6767;
 }
 
-.comment {
-    color: #434343;
-}
-
-.comment:hover {
-    color: black;
-}
-
 .comment:nth-child(even) {
     background-color: #DFDFDF;
 }
