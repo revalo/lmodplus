@@ -67,6 +67,7 @@
                         <div class="grade">Grade</div>
                         <div class="solutions">Solutions</div>
                         <div class="submissions">Submissions</div>
+                        <div class="comments">Comments (Hover)</div>
                     </div>
                     <div class="rows">
                         <div class="assignment" v-for="assignment in assignments" >
@@ -97,7 +98,14 @@
                             </div>
                             <div class="submissions">
                                 <div class="dl" v-for="dl in getSubmissions(assignment.assignmentId)">
-                                    <a v-bind:href="submissionLink(dl)">{{ dl.title }}</a> 
+                                    <a v-bind:href="submissionLink(dl)">{{ dl.title }}</a>
+                                </div>
+                            </div>
+                            <div class="comments">
+                                <div class="comment" v-for="c in getComments(assignment.assignmentId)">
+                                    <a v-if="commentType(c) == 'html'" class="link" v-bind:title="longCommentText(c)">{{ c.authorName }}</a>
+                                    <a v-else-if="commentType(c) == 'document'" class="link" v-bind:href="commentLink(c)" v-bind:title="longCommentText(c)">{{ c.authorName }}</a>
+                                    <a v-else class="link" v-bind:title="longCommentText(c)">{{ c.authorName }}</a>
                                 </div>
                             </div>
                             <div class="submit">

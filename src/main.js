@@ -21,6 +21,16 @@ function setCurrentCourse(course) {
     localStorage.setItem("currentCourse", course);
 }
 
+function mimeTypeShortDescription(mimeType) {
+    if (mimeType == "application/pdf") return "pdf";
+    if (mimeType == "application/msword") return "word";
+    if (mimeType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return "word";
+    if (mimeType == "application/x-zip-compressed") return "zip";
+    if (mimeType == "application/vnd.ms-powerpoint") return "ppt";
+    if (mimeType == "application/vnd.openxmlformats-officedocument.presentationml.presentation") return "ppt";
+    return "";
+}
+
 ready(() => {
     app = new Vue({
         el: '#app',
@@ -28,6 +38,7 @@ ready(() => {
             state: 'materials',
             currentCourse: '',
             classes: [],
+            comments: [],
             materials: [],
             assignments: [],
             downloads: [],
@@ -54,6 +65,12 @@ ready(() => {
             },
         },
         methods: {
+            getComments: function(id) {
+                const filtered = this.comments.filter(d => d.id == id);
+                if (filtered.length == 0) return [];
+                if (filtered[0].comments == undefined) return [];
+                return filtered[0].comments;
+            },
             getDownloads: function(id) {
                 const filtered = this.downloads.filter(d => d.id == id);
                 if (filtered.length == 0) return [];
@@ -113,15 +130,26 @@ ready(() => {
                 if (!getSetting("showTypes")) return "";
 
                 if (material.type == "url") return "url";
-                if (material.type == "document") {
-                    if (material.mimeType == "application/pdf") return "pdf";
-                    if (material.mimeType == "application/msword") return "word";
-                    if (material.mimeType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return "word";
-                    if (material.mimeType == "application/x-zip-compressed") return "zip";
-                    if (material.mimeType == "application/vnd.ms-powerpoint") return "ppt";
-                    if (material.mimeType == "application/vnd.openxmlformats-officedocument.presentationml.presentation") return "ppt";
-                }
+                if (material.type == "document") return mimeTypeShortDescription(material.mimeType);
                 return "";
+            },
+            commentType: function(comment) {
+                return comment.type;
+            },
+            commentLink: function(comment) {
+                return "https://learning-modules.mit.edu/service/materials/assignments/" + comment.assignId + "/comments/" + comment.commentId;
+            },
+            longCommentText: function(comment) {
+                lines = [
+                  comment.authorName,
+                ]
+                if (comment.html) {
+                    lines.push(comment.html);
+                }
+                if (comment.type == 'document') {
+                    lines.push("Document attached: " + mimeTypeShortDescription(comment.mimeType));
+                }
+                return lines.join('\n-----\n');
             },
             submissionLink: function(submission) {
                 return "https://learning-modules.mit.edu/service/materials/assignments/" + submission.assignId + "/submissions/" + submission.subId + "/link";
@@ -191,6 +219,21 @@ ready(() => {
                                 currSubs.push(submission);
                             }
                             this.submissions.push({id: assignment.assignmentId, submissions: currSubs});
+                        });
+                        getComments(assignment.assignmentId, (res) => {
+                            const currComments = [];
+                            for (let i in res) {
+                                data = res[i]
+                                const comment = {}
+                                comment.commentId = data.id;
+                                comment.html = data.html;
+                                comment.type = data.type;
+                                comment.mimeType = data.mimeType;
+                                comment.authorName = data.author.displayName;
+                                comment.assignId = assignment.assignmentId;
+                                currComments.push(comment);
+                            }
+                            this.comments.push({id: assignment.assignmentId, comments: currComments});
                         });
                     }
 
