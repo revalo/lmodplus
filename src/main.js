@@ -134,9 +134,12 @@ ready(() => {
                 return "";
             },
             toggleHTML: function(material) {
+                const loadingText = "<p>Loading...</p>";
                 const content = document.getElementById(material.id);
                 content.hidden = !content.hidden;
-                if (!content.innerHTML) {
+                // check if equals loadingText in case previous request to downloadUrl failed
+                if (!content.innerHTML || content.innerHTML == loadingText) {
+                    content.innerHTML = loadingText;
                     get(material.downloadUrl, (res) => {
                         content.innerHTML = res;
                     });
