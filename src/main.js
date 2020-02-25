@@ -129,9 +129,18 @@ ready(() => {
             materialType: function(material) {
                 if (!getSetting("showTypes")) return "";
 
-                if (material.type == "url") return "url";
+                if (["url", "html"].includes(material.type)) return material.type;
                 if (material.type == "document") return mimeTypeShortDescription(material.mimeType);
                 return "";
+            },
+            toggleHTML: function(material) {
+                const content = document.getElementById(material.id);
+                content.hidden = !content.hidden;
+                if (!content.innerHTML) {
+                    get(material.downloadUrl, (res) => {
+                        content.innerHTML = res;
+                    });
+                }
             },
             commentType: function(comment) {
                 return comment.type;

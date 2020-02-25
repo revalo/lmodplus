@@ -49,8 +49,11 @@
                                 <span class="badge word" v-if="materialType(material) == 'word'">DOC</span>
                                 <span class="badge zip" v-if="materialType(material) == 'zip'">ZIP</span>
                                 <span class="badge ppt" v-if="materialType(material) == 'ppt'">PPT</span>
-                                <a v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+                                <span class="badge html" v-if="materialType(material) == 'html'">HTML</span>
+                                <a v-if="materialType(material) != 'html'" v-bind:href="materialLink(material)"><span class="title">{{ material.title }}</span></a>
+                                <a v-if="materialType(material) == 'html'" v-on:click="toggleHTML(material)"><span class="title">{{ material.title }}</span></a>
                                 <div class="description">{{ material.description }}</div>
+                                <div v-if="materialType(material) == 'html'" class="html-content" v-bind:id="material.id" hidden></div>
                             </div>
                         </div>
                     </div>
