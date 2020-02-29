@@ -66,12 +66,22 @@ body {
 
 .material > a:hover {
     text-decoration: none;
+    cursor: pointer;
     color: rgb(110, 70, 255);
 }
 
 .material {
     padding: 0.1rem 0;
     font-size: 1.1rem;
+}
+
+.material > .html-content {
+    border: 1px solid #95a5a6;
+    padding: 1rem;
+}
+
+.material > .html-content > p {
+    margin: 0;
 }
 
 .cumulative {
@@ -306,6 +316,10 @@ body {
 
 .badge.ppt {
     background-color: #ff6767;
+}
+
+.badge.html {
+    background-color: #008080;
 }
 
 .comment:nth-child(even) {
