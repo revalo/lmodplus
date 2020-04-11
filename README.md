@@ -1,5 +1,7 @@
 # LMOD+
 
+![Chrome Web Store](https://img.shields.io/chrome-web-store/users/mgemjihhkimgggkinojhpobdghffddhf?label=weekly%20users&style=flat-square)
+
 An attempt to speed up the bloated and slow learning-modules.mit.edu. Tries to give the old stellar like experience.
 
 ## Download
