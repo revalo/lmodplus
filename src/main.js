@@ -327,12 +327,21 @@ ready(() => {
                     fileName = promptReply;
                 }
 
-                createNewSubmission(id, fileName, (res) => {
-                    console.log("Created submission, return data", res)
-                    var submissionId = res.data.submission.submissionId;
-                    uploadFile(file, fileName, id, submissionId, () => {
+                createNewSubmission(id, fileName, (createRes) => {
+                    console.log("Created submission, return data", createRes)
+                    const submissionId = createRes.data.submission.submissionId;
+                    uploadFile(file, fileName, id, submissionId, (uploadRes) => {
                         console.log("File upload done?");
-                        this.reloadCourse();
+                        const uploadInfo = JSON.parse(uploadRes.response);
+                        uploadInfo.subId = submissionId;
+                        uploadInfo.assignId = id;
+                        console.log("Upload Info", uploadInfo);
+                        for (const idx in this.submissions) {
+                            if (this.submissions[idx].id === id) {
+                                this.submissions[idx].submissions.push(uploadInfo);
+                                break;
+                            }
+                        }
                     });
                 });
             },
