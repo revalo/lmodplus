@@ -111,7 +111,7 @@ function uploadFile(file, title, assignId, subId, callback) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            callback();
+            callback(this);
        }
     };
     xhr.open("POST", "https://learning-modules.mit.edu/service/materials/assignments/" + assignId + "/submissions/" + subId);
